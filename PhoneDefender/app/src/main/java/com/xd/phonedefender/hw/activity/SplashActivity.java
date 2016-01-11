@@ -2,9 +2,11 @@ package com.xd.phonedefender.hw.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +14,11 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.HttpHandler;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.xd.phonedefender.R;
 import com.xd.phonedefender.hw.utils.StreamUtil;
 import com.xd.phonedefender.hw.utils.ToastUtil;
@@ -19,6 +26,7 @@ import com.xd.phonedefender.hw.utils.ToastUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -32,14 +40,17 @@ import java.net.URL;
 
 public class SplashActivity extends AppCompatActivity {
 
+    //msg.what的默认值为0
     private static final int CODE_UPDATE_DIALOG = 0;
     private static final int CODE_URL_ERROR = 1;
     private static final int CODE_NET_ERROR = 2;
     private static final int CODE_JSON_ERROR = 3;
+    private static final int CODE_ENTER_HOME = 4;
 
 
     private TextView tvVersion;
     private ProgressBar mPregressBar;
+    private TextView tvProgress;//在左下角显示下载进度
 
     private PackageManager mPackageManager;
     private PackageInfo mPackageInfo;
@@ -53,6 +64,10 @@ public class SplashActivity extends AppCompatActivity {
     private String mDesc;
     private String mUrl;
 
+    private Long startTime;
+    private Long endTime;
+    private Long usedTime;
+
     private Message message;
     private Handler mHandler = new Handler() {
         @Override
@@ -64,14 +79,21 @@ public class SplashActivity extends AppCompatActivity {
 
                 case CODE_URL_ERROR:
                     ToastUtil.showMessage("URL错误");
+                    enterHome();
                     break;
 
                 case CODE_NET_ERROR:
                     ToastUtil.showMessage("网络错误");
+                    enterHome();
                     break;
 
                 case CODE_JSON_ERROR:
                     ToastUtil.showMessage("JSON错误");
+                    enterHome();
+                    break;
+
+                case CODE_ENTER_HOME:
+                    enterHome();
                     break;
             }
             mPregressBar.setVisibility(View.GONE);
@@ -86,6 +108,9 @@ public class SplashActivity extends AppCompatActivity {
         initViews();
         initDatas();
         tvVersion.setText("版本号:" + mCurrentVersionName);
+//暂时
+        showUpdateDialog();
+
     }
 
     /**
@@ -108,9 +133,11 @@ public class SplashActivity extends AppCompatActivity {
     private void initViews() {
         tvVersion = (TextView) findViewById(R.id.tv_version);
         mPregressBar = (ProgressBar) findViewById(R.id.progressBar);
+        tvProgress = (TextView) findViewById(R.id.tv_progress);
     }
 
     private void checkUpdate() {
+        startTime = System.currentTimeMillis();
         new Thread(new Runnable() {
             HttpURLConnection urlConnection;
             InputStream inputStream;
@@ -146,6 +173,8 @@ public class SplashActivity extends AppCompatActivity {
                     message.what = CODE_JSON_ERROR;
                     e.printStackTrace();
                 } finally {
+                    endTime = System.currentTimeMillis();
+                    usedTime = startTime - endTime;
                     if (inputStream != null)
                         try {
                             inputStream.close();
@@ -154,8 +183,14 @@ public class SplashActivity extends AppCompatActivity {
                         }
                     if (urlConnection != null)
                         urlConnection.disconnect();
+                    mHandler.sendMessage(message);
+                    if (usedTime < 2000)
+                        try {
+                            Thread.sleep(2000 - usedTime);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                 }
-                mHandler.sendMessage(message);
             }
         }).start();
     }
@@ -163,6 +198,8 @@ public class SplashActivity extends AppCompatActivity {
     private void judgeUpdate() {
         if (mCurrentVersionCode < mNewlyVersionCode)
             message.what = CODE_UPDATE_DIALOG;
+        else
+            message.what = CODE_ENTER_HOME;
     }
 
     private void parseDatasWithJson(String result) throws JSONException {
@@ -185,11 +222,53 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 //执行立即更新的逻辑
+                downLoad();
             }
         });
-        builder.setNegativeButton("下次再说", null);
+        builder.setNegativeButton("下次再说", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                enterHome();
+            }
+        });
 
         builder.show();
+    }
+
+    private void downLoad() {
+        //判断sdcard的状态
+        if (Environment.isExternalStorageEmulated()) {
+            tvProgress.setVisibility(View.VISIBLE);
+            String url = mUrl;
+            String name = Environment.getExternalStorageDirectory() + "/update.apk";
+
+            HttpUtils httpUtils = new HttpUtils();
+            HttpHandler handler = httpUtils.download(url, name, true, true, new RequestCallBack<File>() {
+                @Override
+                public void onSuccess(ResponseInfo<File> responseInfo) {
+
+                }
+
+                @Override
+                public void onFailure(HttpException e, String s) {
+
+                }
+
+                @Override
+                public void onLoading(long total, long current, boolean isUploading) {
+                    super.onLoading(total, current, isUploading);
+                    //时刻显示下载进度
+                    tvProgress.setText("下载进度:" + (current * 1.0 / total) * 100.0 + "%");
+                }
+            });
+        }else
+            ToastUtil.showMessage("本机未检测到SD卡");
+    }
+
+    private void enterHome() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 }
