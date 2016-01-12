@@ -37,6 +37,9 @@ import java.net.URL;
 /**
  * AppcompatActivity下的requestWindowFeature(Window.FEATURE_NO_TITLE);是没有用的,使用于Activity下的
  * 配套的style android:theme="@style/Theme.AppCompat.NoActionBar"
+ * command + F锁定 command + G操作
+ * command + R查找并替换
+ * alt + command + < / >来回切换
  */
 
 public class SplashActivity extends AppCompatActivity {
@@ -214,10 +217,13 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void showUpdateDialog() {
+//这个参数不能用getApplicationContext();代替
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle("最新版本" + mNewlyVersionName);
         builder.setMessage(mDesc);
+
+//        builder.setCancelable(false);
 
         builder.setPositiveButton("立即更新", new DialogInterface.OnClickListener() {
             @Override
@@ -229,6 +235,12 @@ public class SplashActivity extends AppCompatActivity {
         builder.setNegativeButton("下次再说", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                enterHome();
+            }
+        });
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
                 enterHome();
             }
         });
@@ -251,8 +263,8 @@ public class SplashActivity extends AppCompatActivity {
 //跳转到系统的下载页面
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.addCategory(Intent.CATEGORY_DEFAULT);
-                    intent.setDataAndType(Uri.fromFile(responseInfo.result),"application/vnd.android.package-archive");
-                    startActivity(intent);
+                    intent.setDataAndType(Uri.fromFile(responseInfo.result), "application/vnd.android.package-archive");
+                    startActivityForResult(intent, 0);
                 }
 
                 @Override
@@ -267,8 +279,16 @@ public class SplashActivity extends AppCompatActivity {
                     tvProgress.setText("下载进度:" + (current * 1.0 / total) * 100.0 + "%");
                 }
             });
-        }else
+        } else
             ToastUtil.showMessage("本机未检测到SD卡");
+    }
+
+    //取消安装时调用的函数
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 0 && resultCode == RESULT_OK)
+            enterHome();
     }
 
     private void enterHome() {

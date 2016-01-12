@@ -2,12 +2,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="15dp">
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#8866ff00"
+        android:gravity="center"
+        android:text="功能列表"
+        android:textColor="@color/black"
+        android:textSize="22sp" />
+
+    <!-- focusableInTouchMode是表示持续获得焦点的含义,注意它为什么在这里和focusable放在TextView中实现跑马灯效果(因为需要的是持续的效果)-->
+    <!-- 还可以自定义TextView，重写isFocus()方法，让它一直返回true-->
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Activity_Home" />
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:singleLine="true"
+        android:text="这是一个走马灯，这是一个走马灯,这是一个走马灯,嘿呀嘿呀，嘿呀嘿呀,摸摸大!!摸摸大"
+        android:textSize="16sp" />
+
+    <GridView
+        android:id="@+id/gv_home"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:numColumns="3"
+        android:verticalSpacing="15dp"></GridView>
 
 </LinearLayout>
