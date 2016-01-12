@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -246,7 +247,12 @@ public class SplashActivity extends AppCompatActivity {
             HttpHandler handler = httpUtils.download(url, name, true, true, new RequestCallBack<File>() {
                 @Override
                 public void onSuccess(ResponseInfo<File> responseInfo) {
-
+//下载成功后进行安装，注意学习这个思想.
+//跳转到系统的下载页面
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.addCategory(Intent.CATEGORY_DEFAULT);
+                    intent.setDataAndType(Uri.fromFile(responseInfo.result),"application/vnd.android.package-archive");
+                    startActivity(intent);
                 }
 
                 @Override
