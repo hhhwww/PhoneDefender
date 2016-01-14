@@ -56,6 +56,8 @@
 
         <TextView
             style="@style/ContentStyle"
+            android:background="@drawable/shape_selector"
+            android:onClick="reEnter"
             android:text="重新进入设置向导" />
     </RelativeLayout>
 
@@ -68,9 +70,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:background="#5000"
         android:text="功能简介"
-        android:textSize="20sp"
-        android:background="#5000"/>
+        android:textSize="20sp" />
 
     <TextView
         style="@style/ContentStyle"

@@ -20,10 +20,14 @@ public class Setup3Activity extends AppCompatActivity {
     public void next(View view) {
         startActivity(new Intent(this, Setup4Activity.class));
         finish();
+
+        overridePendingTransition(R.anim.next_tran_in, R.anim.next_tran_out);
     }
 
     public void previous(View view) {
         startActivity(new Intent(this, Setup2Activity.class));
         finish();
+
+        overridePendingTransition(R.anim.previous_tran_in, R.anim.previous_tran_out);
     }
 }

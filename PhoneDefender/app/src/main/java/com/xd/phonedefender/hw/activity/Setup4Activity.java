@@ -31,10 +31,14 @@ public class Setup4Activity extends AppCompatActivity {
         sp.edit().putBoolean("configed", true).commit();
         startActivity(new Intent(this, LostFindActivity.class));
         finish();
+
+        overridePendingTransition(R.anim.next_tran_in, R.anim.next_tran_out);
     }
 
     public void previous(View view) {
         startActivity(new Intent(this, Setup3Activity.class));
         finish();
+
+        overridePendingTransition(R.anim.previous_tran_in, R.anim.previous_tran_out);
     }
 }
