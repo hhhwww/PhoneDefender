@@ -3,6 +3,7 @@ package com.xd.phonedefender.hw.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -12,7 +13,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lidroid.xutils.HttpUtils;
@@ -44,6 +47,8 @@ import java.net.URL;
 
 public class SplashActivity extends AppCompatActivity {
 
+    private RelativeLayout rlRoot;
+
     //msg.what的默认值为0
     private static final int CODE_UPDATE_DIALOG = 0;
     private static final int CODE_URL_ERROR = 1;
@@ -71,6 +76,8 @@ public class SplashActivity extends AppCompatActivity {
     private Long startTime;
     private Long endTime;
     private Long usedTime;
+
+    private SharedPreferences mSp;
 
     private Message message;
     private Handler mHandler = new Handler() {
@@ -113,8 +120,20 @@ public class SplashActivity extends AppCompatActivity {
         initDatas();
         tvVersion.setText("版本号:" + mCurrentVersionName);
 //暂时
-        showUpdateDialog();
+        boolean isChecked = mSp.getBoolean("auto_update", true);
+        if (isChecked)
+            showUpdateDialog();
+        else
+            mHandler.sendEmptyMessageDelayed(CODE_ENTER_HOME,2000);
 
+//给活动页面添加渐变的动画
+        setAnimatior();
+    }
+
+    private void setAnimatior() {
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0.3f,1.0f);
+        alphaAnimation.setDuration(2000);
+        rlRoot.startAnimation(alphaAnimation);
     }
 
     /**
@@ -138,6 +157,10 @@ public class SplashActivity extends AppCompatActivity {
         tvVersion = (TextView) findViewById(R.id.tv_version);
         mPregressBar = (ProgressBar) findViewById(R.id.progressBar);
         tvProgress = (TextView) findViewById(R.id.tv_progress);
+
+        mSp = getSharedPreferences("config", MODE_PRIVATE);
+
+        rlRoot = (RelativeLayout) findViewById(R.id.rl_root);
     }
 
     private void checkUpdate() {
@@ -256,7 +279,9 @@ public class SplashActivity extends AppCompatActivity {
             String name = Environment.getExternalStorageDirectory() + "/update.apk";
 
             HttpUtils httpUtils = new HttpUtils();
+//下载在子线程中运行
             HttpHandler handler = httpUtils.download(url, name, true, true, new RequestCallBack<File>() {
+                //这几个回调方法是在主线程中运行
                 @Override
                 public void onSuccess(ResponseInfo<File> responseInfo) {
 //下载成功后进行安装，注意学习这个思想.
@@ -287,7 +312,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 0 && resultCode == RESULT_OK)
+        if (requestCode == 0 && resultCode == RESULT_OK)
             enterHome();
     }
 
