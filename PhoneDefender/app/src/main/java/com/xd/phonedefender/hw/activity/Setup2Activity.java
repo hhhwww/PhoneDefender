@@ -2,6 +2,8 @@ package com.xd.phonedefender.hw.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.xd.phonedefender.R;
@@ -11,7 +13,10 @@ import com.xd.phonedefender.hw.view.SettingItemView;
  * Created by hhhhwei on 16/1/14.
  */
 public class Setup2Activity extends BaseSetupActivity implements View.OnClickListener {
+
     private SettingItemView settingItemView;
+
+    private String sim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,10 +25,19 @@ public class Setup2Activity extends BaseSetupActivity implements View.OnClickLis
 
         initViews();
         setListeners();
+
+        String saveSim = sp.getString("sim", null);
+        if (TextUtils.isEmpty(saveSim))
+            settingItemView.setCheckBox(false);
+        else
+            settingItemView.setCheckBox(true);
     }
 
     private void initViews() {
         settingItemView = (SettingItemView) findViewById(R.id.siv1);
+
+        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        sim = telephonyManager.getSimSerialNumber();
     }
 
     private void setListeners() {
@@ -50,10 +64,13 @@ public class Setup2Activity extends BaseSetupActivity implements View.OnClickLis
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.siv1:
-                if (settingItemView.isChecked())
+                if (settingItemView.isChecked()) {
                     settingItemView.setCheckBox(false);
-                else
+                    sp.edit().remove("sim").commit();
+                } else {
                     settingItemView.setCheckBox(true);
+                    sp.edit().putString("sim", sim).commit();
+                }
                 break;
         }
     }

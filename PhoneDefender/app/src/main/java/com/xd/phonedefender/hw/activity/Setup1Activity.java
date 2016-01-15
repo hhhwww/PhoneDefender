@@ -15,12 +15,13 @@ public class Setup1Activity extends BaseSetupActivity {
         setContentView(R.layout.activity_setup1);
     }
 
+
     @Override
     public void showNextPage() {
-        startActivity(new Intent(this, Setup2Activity.class));
+        startActivity(new Intent(this,Setup2Activity.class));
         finish();
 
-        overridePendingTransition(R.anim.next_tran_in, R.anim.next_tran_out);
+        overridePendingTransition(R.anim.next_tran_in,R.anim.next_tran_out);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.xd.phonedefender.hw.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.xd.phonedefender.R;
 
@@ -30,4 +31,9 @@ public class Setup3Activity extends BaseSetupActivity {
 
         overridePendingTransition(R.anim.previous_tran_in, R.anim.previous_tran_out);
     }
+
+    public void setContact(View view) {
+        startActivity(new Intent(this, ContactActivity.class));
+    }
+
 }
