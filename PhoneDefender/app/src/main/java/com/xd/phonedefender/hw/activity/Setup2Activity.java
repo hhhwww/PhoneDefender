@@ -2,7 +2,6 @@ package com.xd.phonedefender.hw.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.xd.phonedefender.R;
@@ -11,7 +10,7 @@ import com.xd.phonedefender.hw.view.SettingItemView;
 /**
  * Created by hhhhwei on 16/1/14.
  */
-public class Setup2Activity extends AppCompatActivity implements View.OnClickListener {
+public class Setup2Activity extends BaseSetupActivity implements View.OnClickListener {
     private SettingItemView settingItemView;
 
     @Override
@@ -31,18 +30,20 @@ public class Setup2Activity extends AppCompatActivity implements View.OnClickLis
         settingItemView.setOnClickListener(this);
     }
 
-    public void next(View view) {
+    @Override
+    public void showNextPage() {
         startActivity(new Intent(this, Setup3Activity.class));
         finish();
 
         overridePendingTransition(R.anim.next_tran_in, R.anim.next_tran_out);
     }
 
-    public void previous(View view) {
+    @Override
+    public void showPreviousPage() {
         startActivity(new Intent(this, Setup1Activity.class));
         finish();
 
-        overridePendingTransition(R.anim.previous_tran_in,R.anim.previous_tran_out);
+        overridePendingTransition(R.anim.previous_tran_in, R.anim.previous_tran_out);
     }
 
     @Override
