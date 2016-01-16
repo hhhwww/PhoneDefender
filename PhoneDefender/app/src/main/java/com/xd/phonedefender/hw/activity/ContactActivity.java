@@ -1,9 +1,12 @@
 package com.xd.phonedefender.hw.activity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -16,7 +19,7 @@ import java.util.List;
 /**
  * Created by hhhhwei on 16/1/15.
  */
-public class ContactActivity extends AppCompatActivity {
+public class ContactActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ListView listView;
     private List<HashMap<String, String>> list;
@@ -31,6 +34,7 @@ public class ContactActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listview);
         listView.setAdapter(new SimpleAdapter(this, list, R.layout.contact_list_item
                 , new String[]{"name", "phone"}, new int[]{R.id.tv_name, R.id.tv_number}));
+        listView.setOnItemClickListener(this);
     }
 
     public List<HashMap<String, String>> readContacts() {
@@ -70,4 +74,12 @@ public class ContactActivity extends AppCompatActivity {
         return list;
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        String phone = list.get(i).get("phone");
+        Intent intent = new Intent();
+        intent.putExtra("phone", phone);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
 }

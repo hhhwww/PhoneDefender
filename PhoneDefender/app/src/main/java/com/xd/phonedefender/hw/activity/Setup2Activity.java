@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.xd.phonedefender.R;
+import com.xd.phonedefender.hw.utils.ToastUtil;
 import com.xd.phonedefender.hw.view.SettingItemView;
 
 /**
@@ -46,10 +47,12 @@ public class Setup2Activity extends BaseSetupActivity implements View.OnClickLis
 
     @Override
     public void showNextPage() {
-        startActivity(new Intent(this, Setup3Activity.class));
-        finish();
-
-        overridePendingTransition(R.anim.next_tran_in, R.anim.next_tran_out);
+        if (settingItemView.isChecked()) {
+            startActivity(new Intent(this, Setup3Activity.class));
+            overridePendingTransition(R.anim.next_tran_in, R.anim.next_tran_out);
+            finish();
+        }else
+            ToastUtil.showMessage("请绑定sim卡");
     }
 
     @Override
