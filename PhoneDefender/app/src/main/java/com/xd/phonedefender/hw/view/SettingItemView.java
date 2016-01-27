@@ -34,13 +34,13 @@ public class SettingItemView extends RelativeLayout {
         super(context, attrs, defStyleAttr);
         initView();
 
-        title = attrs.getAttributeValue("http://schemas.android.com/apk/res-auto","mtitle");
-        onDesc = attrs.getAttributeValue("http://schemas.android.com/apk/res-auto","desc_on");
-        offDesc = attrs.getAttributeValue("http://schemas.android.com/apk/res-auto","desc_off");
+        title = attrs.getAttributeValue("http://schemas.android.com/apk/res-auto", "mtitle");
+        onDesc = attrs.getAttributeValue("http://schemas.android.com/apk/res-auto", "desc_on");
+        offDesc = attrs.getAttributeValue("http://schemas.android.com/apk/res-auto", "desc_off");
 
         //初始化的状态
         tvTitle.setText(title);
-        tvDesc.setText(onDesc);
+        setCheckBox(false);
     }
 
     //注意这个this的含义
@@ -52,23 +52,23 @@ public class SettingItemView extends RelativeLayout {
         cb = (CheckBox) findViewById(R.id.cb);
     }
 
-    public void setTitle(String title){
+    public void setTitle(String title) {
         tvTitle.setText(title);
     }
 
-    public void setDesc(String desc){
+    public void setDesc(String desc) {
         tvDesc.setText(desc);
     }
 
-    public void setCheckBox(boolean check){
+    public void setCheckBox(boolean check) {
         cb.setChecked(check);
-        if(check)
+        if (check)
             setDesc(onDesc);
         else
             setDesc(offDesc);
     }
 
-    public boolean isChecked(){
+    public boolean isChecked() {
         return cb.isChecked();
     }
 

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PhoneDefender</string>
+    <string name="sample_device_admin_description">HEWEI</string>
+    <string name="sample_device_admin">WENWEN</string>
 </resources>

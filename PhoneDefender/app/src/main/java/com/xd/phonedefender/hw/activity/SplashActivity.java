@@ -31,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -124,14 +125,19 @@ public class SplashActivity extends AppCompatActivity {
         if (isChecked)
             showUpdateDialog();
         else
-            mHandler.sendEmptyMessageDelayed(CODE_ENTER_HOME,2000);
+            mHandler.sendEmptyMessageDelayed(CODE_ENTER_HOME, 2000);
 
 //给活动页面添加渐变的动画
         setAnimatior();
+//***
+        File file = new File(getFilesDir(), "address.db");
+        if (!file.exists()) {
+            copyDb("address.db");
+        }
     }
 
     private void setAnimatior() {
-        AlphaAnimation alphaAnimation = new AlphaAnimation(0.3f,1.0f);
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0.3f, 1.0f);
         alphaAnimation.setDuration(2000);
         rlRoot.startAnimation(alphaAnimation);
     }
@@ -321,5 +327,31 @@ public class SplashActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    private void copyDb(String dbName) {
+        File file = null;
+        InputStream open = null;
+        FileOutputStream fileOutputStream = null;
+        byte[] bytes = new byte[1024];
+        int len = 0;
+        try {
+            open = getAssets().open(dbName);
+            file = new File(getFilesDir(), dbName);
+            fileOutputStream = new FileOutputStream(file);
+
+            while ((len = open.read(bytes)) != -1) {
+                fileOutputStream.write(bytes, 0, len);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (open != null) open.close();
+                if (fileOutputStream != null) fileOutputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }//finally
+    }//copyDb
 
 }

@@ -71,6 +71,7 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
                 break;
 
             case 7:
+                startActivity(new Intent(this, AToolsActivity.class));
                 break;
 
             case 8:
