@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:name=".hw.application.MyApplication"
@@ -38,7 +39,9 @@
         <activity android:name=".hw.activity.Setup4Activity"></activity>
         <activity android:name=".hw.activity.AToolsActivity"></activity>
         <activity android:name=".hw.activity.AddressActivity"></activity>
-        <activity android:name=".hw.activity.DragViewActivity"></activity>
+        <activity
+            android:name=".hw.activity.DragViewActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
 
         <receiver android:name=".hw.receiver.BootCompleteReceiver">
             <intent-filter>

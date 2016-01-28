@@ -5,12 +5,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.view.Gravity;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
@@ -29,6 +33,8 @@ public class AdressService extends Service {
     private WindowManager windowManager;
     private TextView view;
 
+    private SharedPreferences sp;
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -38,6 +44,8 @@ public class AdressService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        sp = getSharedPreferences("config", MODE_PRIVATE);
 
         tm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         myPhoneStateListener = new MyPhoneStateListener();
@@ -87,17 +95,24 @@ public class AdressService extends Service {
     private void showToast(String text) {
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
 
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+        winWidth = windowManager.getDefaultDisplay().getWidth();
+        winHeight = windowManager.getDefaultDisplay().getHeight();
+
+        final WindowManager.LayoutParams params = new WindowManager.LayoutParams();
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         params.width = WindowManager.LayoutParams.WRAP_CONTENT;
 //***
         params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
                 | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
         params.format = PixelFormat.TRANSPARENT;
-        params.type = WindowManager.LayoutParams.TYPE_TOAST;
+        params.type = WindowManager.LayoutParams.TYPE_PHONE;
         params.setTitle("Toast");
 //***
+
+        params.gravity = Gravity.LEFT | Gravity.TOP;
+        params.x = sp.getInt("lastX", 0);
+        params.y = sp.getInt("lastY", 0);
+
         view = new TextView(this);
 
 //        view.setBackgroundResource(); + 一个整形数组 + 一个sharedPreference
@@ -105,5 +120,56 @@ public class AdressService extends Service {
         view.setTextColor(Color.RED);
 
         windowManager.addView(view, params);
+
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        startX = (int) motionEvent.getRawX();
+                        startY = (int) motionEvent.getRawY();
+                        break;
+
+                    case MotionEvent.ACTION_MOVE:
+                        int endX = (int) motionEvent.getRawX();
+                        int endY = (int) motionEvent.getRawY();
+
+                        int dx = endX - startX;
+                        int dy = endY - startY;
+
+                        params.x += dx;
+                        params.y += dy;
+
+                        if (params.x < 0)
+                            params.x = 0;
+                        if (params.y < 0)
+                            params.y = 0;
+
+                        if (params.x + view.getWidth() > winWidth)
+                            params.x = winWidth - view.getWidth();
+                        if (params.y + view.getHeight() > winHeight)
+                            params.y = winHeight - view.getHeight();
+
+                        windowManager.updateViewLayout(view, params);
+
+                        startX = (int) motionEvent.getRawX();
+                        startY = (int) motionEvent.getRawY();
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        sp.edit().putInt("lastX", params.x).commit();
+                        sp.edit().putInt("lastY", params.y).commit();
+                        break;
+                }
+                return true;
+            }
+        });
     }
+
+    private int startX;
+    private int startY;
+
+
+    private int winWidth;
+    private int winHeight;
 }
