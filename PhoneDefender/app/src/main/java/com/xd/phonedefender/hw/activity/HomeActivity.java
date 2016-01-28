@@ -53,6 +53,7 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
                 break;
 
             case 1:
+                startActivity(new Intent(this, CallSafeActivity.class));
                 break;
 
             case 2:
@@ -106,18 +107,17 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
         Button btOk = (Button) view.findViewById(R.id.bt_ok);
         Button btCancel = (Button) view.findViewById(R.id.bt_cancel);
 
-        final String savedPassword = sp.getString("password",null);
+        final String savedPassword = sp.getString("password", null);
 
         btOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String password = etPassword.getText().toString().trim();
-                if(savedPassword.equals(MD5Utils.encouder(password))){
+                if (savedPassword.equals(MD5Utils.encouder(password))) {
                     ToastUtil.showMessage("登录成功");
-                    startActivity(new Intent(HomeActivity.this,LostFindActivity.class));
+                    startActivity(new Intent(HomeActivity.this, LostFindActivity.class));
                     alertDialog.dismiss();
-                }
-                else
+                } else
                     ToastUtil.showMessage("登录失败,请重新输入密码");
             }
         });

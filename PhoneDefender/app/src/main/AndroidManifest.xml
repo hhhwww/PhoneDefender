@@ -29,34 +29,33 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".hw.activity.HomeActivity"></activity>
-        <activity android:name=".hw.activity.SettingActivity"></activity>
-        <activity android:name=".hw.activity.LostFindActivity"></activity>
-        <activity android:name=".hw.activity.Setup1Activity"></activity>
-        <activity android:name=".hw.activity.Setup2Activity"></activity>
-        <activity android:name=".hw.activity.Setup3Activity"></activity>
-        <activity android:name=".hw.activity.Setup4Activity"></activity>
-        <activity android:name=".hw.activity.AToolsActivity"></activity>
-        <activity android:name=".hw.activity.AddressActivity"></activity>
+        <activity android:name=".hw.activity.HomeActivity" />
+        <activity android:name=".hw.activity.SettingActivity" />
+        <activity android:name=".hw.activity.LostFindActivity" />
+        <activity android:name=".hw.activity.Setup1Activity" />
+        <activity android:name=".hw.activity.Setup2Activity" />
+        <activity android:name=".hw.activity.Setup3Activity" />
+        <activity android:name=".hw.activity.Setup4Activity" />
+        <activity android:name=".hw.activity.AToolsActivity" />
+        <activity android:name=".hw.activity.AddressActivity" />
         <activity
             android:name=".hw.activity.DragViewActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name=".hw.activity.CallSafeActivity"></activity>
 
         <receiver android:name=".hw.receiver.BootCompleteReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
         <receiver android:name=".hw.receiver.SmsReceiver">
             <intent-filter android:priority="214748364">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".hw.service.LocationService"></service>
-        <service android:name=".hw.service.AdressService"></service>
+        <service android:name=".hw.service.LocationService" />
+        <service android:name=".hw.service.AdressService" />
 
         <receiver
             android:name=".hw.receiver.AdminReceiver"
@@ -66,16 +65,17 @@
             <meta-data
                 android:name="android.app.device_admin"
                 android:resource="@xml/device_admin_sample" />
+
             <intent-filter>
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>
         </receiver>
 
-        <!--<receiver android:name=".hw.receiver.OutCallReceiver">-->
-        <!--<intent-filter>-->
-        <!--<action android:name="android.intent.action.NEW_OUTGOING_CALL" />-->
-        <!--</intent-filter>-->
-        <!--</receiver>-->
+        <!-- <receiver android:name=".hw.receiver.OutCallReceiver"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.NEW_OUTGOING_CALL" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
 
     </application>
 
