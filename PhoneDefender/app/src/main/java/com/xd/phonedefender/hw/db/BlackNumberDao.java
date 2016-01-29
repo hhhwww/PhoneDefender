@@ -85,11 +85,12 @@ public class BlackNumberDao {
         return list;
     }
 
+    //分页加载!
     public List<BlackNumberInfo> findPar(int pageNumber, int pageSize) {
         List<BlackNumberInfo> lists = new ArrayList<>();
         SQLiteDatabase readableDatabase = blackNumberOpenHelper.getReadableDatabase();
         Cursor cursor = readableDatabase.rawQuery("select number,mode from blacknumber limit ? offset ?",
-                new String[]{String.valueOf(pageNumber), String.valueOf(pageNumber * pageSize)});
+                new String[]{String.valueOf(pageSize), String.valueOf(pageNumber * pageSize)});
         while (cursor.moveToNext()) {
             BlackNumberInfo blackNumberInfo = new BlackNumberInfo();
             blackNumberInfo.setNumber(cursor.getString(cursor.getColumnIndex("number")));
@@ -98,6 +99,31 @@ public class BlackNumberDao {
         }
         if (cursor != null) cursor.close();
         readableDatabase.close();
+        SystemClock.sleep(1000);
+        return lists;
+    }
+
+    /**
+     * 分批加载
+     *
+     * @param startIndex 开始的索引位置
+     * @param maxCount   每次的数量
+     * @return
+     */
+    public List<BlackNumberInfo> findPar2(int startIndex, int maxCount) {
+        List<BlackNumberInfo> lists = new ArrayList<>();
+        SQLiteDatabase readableDatabase = blackNumberOpenHelper.getReadableDatabase();
+        Cursor cursor = readableDatabase.rawQuery("select number,mode from blacknumber limit ? offset ?",
+                new String[]{String.valueOf(maxCount), String.valueOf(startIndex)});
+        while (cursor.moveToNext()) {
+            BlackNumberInfo blackNumberInfo = new BlackNumberInfo();
+            blackNumberInfo.setNumber(cursor.getString(cursor.getColumnIndex("number")));
+            blackNumberInfo.setMode(cursor.getString(cursor.getColumnIndex("mode")));
+            lists.add(blackNumberInfo);
+        }
+        if (cursor != null) cursor.close();
+        readableDatabase.close();
+        SystemClock.sleep(1000);
         return lists;
     }
 
@@ -107,5 +133,17 @@ public class BlackNumberDao {
         cursor.moveToNext();
         int total = cursor.getInt(0);
         return total;
+    }
+
+    public void addAll(List<BlackNumberInfo> lists) {
+        SQLiteDatabase writableDatabase = blackNumberOpenHelper.getWritableDatabase();
+        for (BlackNumberInfo blackNumberInfo : lists) {
+            add(blackNumberInfo.getNumber(), blackNumberInfo.getMode());
+        }
+    }
+
+    public void deleteAll() {
+        SQLiteDatabase writableDatabase = blackNumberOpenHelper.getWritableDatabase();
+        writableDatabase.delete(BlackNumberOpenHelper.TABLE_NAME, null, null);
     }
 }

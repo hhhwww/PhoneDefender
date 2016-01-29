@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.xd.phonedefender.R;
 import com.xd.phonedefender.hw.service.AdressService;
+import com.xd.phonedefender.hw.service.CallSafeService;
 import com.xd.phonedefender.hw.utils.ServiceStatusUtils;
 import com.xd.phonedefender.hw.view.SettingClickView;
 import com.xd.phonedefender.hw.view.SettingItemView;
@@ -29,6 +30,8 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
     private String[] items = new String[]{"半透明", "活力橙", "卫士蓝", "金属灰", "苹果绿"};
 
+    private SettingItemView settingItemViewInterrupt;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,15 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         toJudgeStates2();
         toJudgeStates3();
         toJudgeStates4();
+        toJudgeStates5();
+    }
+
+    private void toJudgeStates5() {
+        boolean serviceRunning = ServiceStatusUtils.isServiceRunning(this, "com.xd.phonedefender.hw.service.CallSafeService");
+        if (serviceRunning)
+            settingItemViewInterrupt.setCheckBox(true);
+        else
+            settingItemViewInterrupt.setCheckBox(false);
     }
 
     private void toJudgeStates1() {
@@ -78,6 +90,8 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
         settingClickView1 = (SettingClickView) findViewById(R.id.siv3);
         settingClickView2 = (SettingClickView) findViewById(R.id.siv4);
+
+        settingItemViewInterrupt = (SettingItemView) findViewById(R.id.siv5);
     }
 
     private void setListeners() {
@@ -86,6 +100,8 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
         settingClickView1.setOnClickListener(this);
         settingClickView2.setOnClickListener(this);
+
+        settingItemViewInterrupt.setOnClickListener(this);
     }
 
     @Override
@@ -106,6 +122,20 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.siv4:
                 startActivity(new Intent(this, DragViewActivity.class));
                 break;
+
+            case R.id.siv5:
+                toJudgeChecked5();
+                break;
+        }
+    }
+
+    private void toJudgeChecked5() {
+        if (settingItemViewInterrupt.isChecked()) {
+            settingItemViewInterrupt.setCheckBox(false);
+            stopService(new Intent(this, CallSafeService.class));
+        } else {
+            settingItemViewInterrupt.setCheckBox(true);
+            startService(new Intent(this, CallSafeService.class));
         }
     }
 

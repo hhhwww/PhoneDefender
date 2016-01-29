@@ -40,4 +40,12 @@
         hw:mtitle="归属地提示框显示位置">
     </com.xd.phonedefender.hw.view.SettingClickView>
 
+    <com.xd.phonedefender.hw.view.SettingItemView
+        android:id="@+id/siv5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        hw:desc_off="黑名单拦截已经关闭"
+        hw:desc_on="黑名单拦截已经开启"
+        hw:mtitle="黑名单拦截设置"></com.xd.phonedefender.hw.view.SettingItemView>
+
 </LinearLayout>

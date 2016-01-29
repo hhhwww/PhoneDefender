@@ -66,6 +66,7 @@ public class SmsReceiver extends BroadcastReceiver {
         Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
         intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, componentName);
         intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "哈哈哈啊哈哈");
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
@@ -98,6 +99,7 @@ public class SmsReceiver extends BroadcastReceiver {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         intent.setData(Uri.parse("package" + context.getPackageName()));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
