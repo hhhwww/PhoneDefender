@@ -44,7 +44,6 @@ public class CallSafeService extends Service {
     }
 
     class InnerReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             Object[] pdus = (Object[]) intent.getExtras().get("pdus");
@@ -55,11 +54,12 @@ public class CallSafeService extends Service {
                 if (!TextUtils.isEmpty(mode) && (mode.equals("1") || mode.equals("3"))) {
                     abortBroadcast();
                 }
-
                 //智能拦截，从数据库中查询相似的内容进行拦截
             }
         }
 
     }//
+
+
 
 }
