@@ -21,4 +21,18 @@
         android:textColor="@color/black"
         android:textSize="20sp" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:drawableLeft="@android:drawable/ic_menu_camera"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        android:onClick="backUpSms"
+        android:padding="5dp"
+        android:text="短信备份"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+
 </LinearLayout>
