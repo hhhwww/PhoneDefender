@@ -16,6 +16,8 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.WRITE_SMS" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
 
     <application
         android:name=".hw.application.MyApplication"
@@ -31,7 +33,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".hw.activity.HomeActivity" />
+        <activity android:name=".hw.activity.HomeActivity">
+            <intent-filter>
+                <action android:name="aaaa.bbbb" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".hw.activity.SettingActivity" />
         <activity android:name=".hw.activity.LostFindActivity" />
         <activity android:name=".hw.activity.Setup1Activity" />
@@ -40,6 +47,8 @@
         <activity android:name=".hw.activity.Setup4Activity" />
         <activity android:name=".hw.activity.AToolsActivity" />
         <activity android:name=".hw.activity.AddressActivity" />
+        <activity android:name=".hw.activity.TaskManagerActivity" />
+        <activity android:name=".hw.activity.TaskManagerSettingActivity" />
         <activity
             android:name=".hw.activity.DragViewActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
@@ -60,6 +69,7 @@
         <service android:name=".hw.service.LocationService" />
         <service android:name=".hw.service.AdressService" />
         <service android:name=".hw.service.CallSafeService" />
+        <service android:name=".hw.service.KillProcessService" />
 
         <receiver
             android:name=".hw.receiver.AdminReceiver"

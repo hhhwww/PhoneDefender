@@ -50,22 +50,22 @@ public class SmsUtils {
                 xmlSerializer.startTag(null, "sms");
 
                 xmlSerializer.startTag(null, "address");
-                xmlSerializer.text(address);
+                xmlSerializer.text(CryptoUtils.encrypt("123heweiwenwen", address));
                 xmlSerializer.endTag(null, "address");
 
 
                 xmlSerializer.startTag(null, "type");
-                xmlSerializer.text(type);
+                xmlSerializer.text(CryptoUtils.encrypt("123heweiwenwen", type));
                 xmlSerializer.endTag(null, "type");
 
 
                 xmlSerializer.startTag(null, "date");
-                xmlSerializer.text(date);
+                xmlSerializer.text(CryptoUtils.encrypt("123heweiwenwen", date));
                 xmlSerializer.endTag(null, "date");
 
 
                 xmlSerializer.startTag(null, "body");
-                xmlSerializer.text(body);
+                xmlSerializer.text(CryptoUtils.encrypt("123heweiwenwen", body));
                 xmlSerializer.endTag(null, "body");
 
                 xmlSerializer.endTag(null, "sms");

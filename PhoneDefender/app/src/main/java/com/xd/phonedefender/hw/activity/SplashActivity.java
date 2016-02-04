@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -134,6 +135,25 @@ public class SplashActivity extends AppCompatActivity {
         if (!file.exists()) {
             copyDb("address.db");
         }
+
+        createShortCut();
+    }
+
+    private void createShortCut() {
+        Intent intent = new Intent();
+        intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+  //源码：阻止多次创建快捷方式
+        intent.putExtra("duplicate", false);
+
+        Intent goIntent = new Intent();
+        goIntent.setAction("aaaa.bbbb");
+
+        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "何伟的手机管家");
+        intent.putExtra(Intent.EXTRA_SHORTCUT_ICON,
+                BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+        intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, goIntent);
+
+        sendBroadcast(intent);
     }
 
     private void setAnimatior() {
