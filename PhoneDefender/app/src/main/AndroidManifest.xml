@@ -70,6 +70,7 @@
         <service android:name=".hw.service.AdressService" />
         <service android:name=".hw.service.CallSafeService" />
         <service android:name=".hw.service.KillProcessService" />
+        <service android:name=".hw.service.KillProcessWidgetService" />
 
         <receiver
             android:name=".hw.receiver.AdminReceiver"
@@ -84,6 +85,17 @@
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>
         </receiver>
+
+        <receiver android:name=".hw.receiver.AppWidgetReceiver">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/appwidget_info" />
+        </receiver>
+        <receiver android:name=".hw.service.KillAllProcessWidgetReceiver" />
 
         <!-- <receiver android:name=".hw.receiver.OutCallReceiver"> -->
         <!-- <intent-filter> -->
