@@ -131,9 +131,14 @@ public class SplashActivity extends AppCompatActivity {
 //给活动页面添加渐变的动画
         setAnimatior();
 //***
-        File file = new File(getFilesDir(), "address.db");
-        if (!file.exists()) {
+        File file1 = new File(getFilesDir(), "address.db");
+        if (!file1.exists()) {
             copyDb("address.db");
+        }
+
+        File file2 = new File(getFilesDir(), "antivirus.db");
+        if (!file2.exists()) {
+            copyDb("antivirus.db");
         }
 
         createShortCut();
@@ -142,7 +147,7 @@ public class SplashActivity extends AppCompatActivity {
     private void createShortCut() {
         Intent intent = new Intent();
         intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-  //源码：阻止多次创建快捷方式
+        //源码：阻止多次创建快捷方式
         intent.putExtra("duplicate", false);
 
         Intent goIntent = new Intent();
@@ -373,5 +378,30 @@ public class SplashActivity extends AppCompatActivity {
             }
         }//finally
     }//copyDb
+
+//    //从服务器得到json数据，然后解析添加到数据库中
+//    private void updateAntivirus() {
+//        String url = "";
+//        HttpUtils httpUtils = new HttpUtils();
+//        httpUtils.send(HttpRequest.HttpMethod.GET, url, new RequestCallBack<String>() {
+//            @Override
+//            public void onSuccess(ResponseInfo<String> responseInfo) {
+//                String result = responseInfo.result;
+////                    JSONObject jsonObject = new JSONObject(result);
+////                    String md5 = jsonObject.getString("md5");
+////                    String desc = jsonObject.getString("desc");
+////                    AntivirusDao.addAntivirus(md5, desc, SplashActivity.this);
+//
+//                Gson gson = new Gson();
+//                AntivirusInfo antivirusInfo = gson.fromJson(result, AntivirusInfo.class);
+//                AntivirusDao.addAntivirus(antivirusInfo.md5, antivirusInfo.desc, SplashActivity.this);
+//            }
+//
+//            @Override
+//            public void onFailure(HttpException e, String s) {
+//
+//            }
+//        });
+//    }
 
 }

@@ -54,6 +54,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".hw.activity.CallSafeActivity"></activity>
         <activity android:name=".hw.activity.AppManagerActivity"></activity>
+        <activity android:name=".hw.activity.AntivirusActivity"></activity>
 
         <receiver android:name=".hw.receiver.BootCompleteReceiver">
             <intent-filter>
