@@ -18,7 +18,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.xd.phonedefender.hw.db.AddressDao;
+import com.xd.phonedefender.hw.db.dao.AddressDao;
 
 /**
  * Created by hhhhwei on 16/1/26.

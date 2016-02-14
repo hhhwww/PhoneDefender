@@ -3,7 +3,7 @@ package com.xd.phonedefender;
 import android.app.Application;
 import android.test.ApplicationTestCase;
 
-import com.xd.phonedefender.hw.db.BlackNumberDao;
+import com.xd.phonedefender.hw.db.dao.BlackNumberDao;
 
 import java.util.Random;
 

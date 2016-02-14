@@ -41,11 +41,19 @@
     </com.xd.phonedefender.hw.view.SettingClickView>
 
     <com.xd.phonedefender.hw.view.SettingItemView
-        android:id="@+id/siv5"
+    android:id="@+id/siv5"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    hw:desc_off="黑名单拦截已经关闭"
+    hw:desc_on="黑名单拦截已经开启"
+    hw:mtitle="黑名单拦截设置"></com.xd.phonedefender.hw.view.SettingItemView>
+
+    <com.xd.phonedefender.hw.view.SettingItemView
+        android:id="@+id/siv6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        hw:desc_off="黑名单拦截已经关闭"
-        hw:desc_on="黑名单拦截已经开启"
-        hw:mtitle="黑名单拦截设置"></com.xd.phonedefender.hw.view.SettingItemView>
+        hw:desc_off="看门狗已经关闭"
+        hw:desc_on="看门狗已经开启"
+        hw:mtitle="看门狗设置"></com.xd.phonedefender.hw.view.SettingItemView>
 
 </LinearLayout>

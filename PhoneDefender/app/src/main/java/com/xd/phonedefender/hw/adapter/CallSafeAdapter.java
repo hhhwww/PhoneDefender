@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.xd.phonedefender.R;
 import com.xd.phonedefender.hw.bean.BlackNumberInfo;
-import com.xd.phonedefender.hw.db.BlackNumberDao;
+import com.xd.phonedefender.hw.db.dao.BlackNumberDao;
 import com.xd.phonedefender.hw.utils.ToastUtil;
 
 import java.util.List;

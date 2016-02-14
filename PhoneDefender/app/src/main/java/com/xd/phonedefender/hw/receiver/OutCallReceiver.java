@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.xd.phonedefender.hw.db.AddressDao;
+import com.xd.phonedefender.hw.db.dao.AddressDao;
 import com.xd.phonedefender.hw.utils.ToastUtil;
 
 /**

@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.xd.phonedefender.R;
-import com.xd.phonedefender.hw.db.AddressDao;
+import com.xd.phonedefender.hw.db.dao.AddressDao;
 
 /**
  * Created by hhhhwei on 16/1/25.

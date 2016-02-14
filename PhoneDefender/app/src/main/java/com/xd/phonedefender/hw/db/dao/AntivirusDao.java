@@ -1,4 +1,4 @@
-package com.xd.phonedefender.hw.db;
+package com.xd.phonedefender.hw.db.dao;
 
 import android.content.ContentValues;
 import android.content.Context;

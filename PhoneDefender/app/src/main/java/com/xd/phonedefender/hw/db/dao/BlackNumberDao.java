@@ -1,4 +1,4 @@
-package com.xd.phonedefender.hw.db;
+package com.xd.phonedefender.hw.db.dao;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.SystemClock;
 
 import com.xd.phonedefender.hw.bean.BlackNumberInfo;
+import com.xd.phonedefender.hw.db.BlackNumberOpenHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ public class BlackNumberDao {
     private final BlackNumberOpenHelper blackNumberOpenHelper;
 
     public BlackNumberDao(Context context) {
+//这个就相当于躲也躲不开的第一次初始化
         blackNumberOpenHelper = new BlackNumberOpenHelper(context, "safe.db", null, 1);
     }
 

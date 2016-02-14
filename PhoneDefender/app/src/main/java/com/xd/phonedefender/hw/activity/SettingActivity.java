@@ -11,6 +11,7 @@ import android.view.View;
 import com.xd.phonedefender.R;
 import com.xd.phonedefender.hw.service.AdressService;
 import com.xd.phonedefender.hw.service.CallSafeService;
+import com.xd.phonedefender.hw.service.WatchDogService;
 import com.xd.phonedefender.hw.utils.ServiceStatusUtils;
 import com.xd.phonedefender.hw.view.SettingClickView;
 import com.xd.phonedefender.hw.view.SettingItemView;
@@ -27,6 +28,8 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
     private SettingClickView settingClickView1;
     private SettingClickView settingClickView2;
+
+    private SettingItemView settingItemView6;
 
     private String[] items = new String[]{"半透明", "活力橙", "卫士蓝", "金属灰", "苹果绿"};
 
@@ -46,6 +49,15 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         toJudgeStates3();
         toJudgeStates4();
         toJudgeStates5();
+        toJudgeStates6();
+    }
+
+    private void toJudgeStates6() {
+        boolean serviceRunning = ServiceStatusUtils.isServiceRunning(this, "com.xd.phonedefender.hw.service.WatchDogService");
+        if (serviceRunning)
+            settingItemView6.setCheckBox(true);
+        else
+            settingItemView6.setCheckBox(false);
     }
 
     private void toJudgeStates5() {
@@ -87,6 +99,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
         settingItemView1 = (SettingItemView) findViewById(R.id.siv1);
         settingItemView2 = (SettingItemView) findViewById(R.id.siv2);
+        settingItemView6 = (SettingItemView) findViewById(R.id.siv6);
 
         settingClickView1 = (SettingClickView) findViewById(R.id.siv3);
         settingClickView2 = (SettingClickView) findViewById(R.id.siv4);
@@ -97,6 +110,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     private void setListeners() {
         settingItemView1.setOnClickListener(this);
         settingItemView2.setOnClickListener(this);
+        settingItemView6.setOnClickListener(this);
 
         settingClickView1.setOnClickListener(this);
         settingClickView2.setOnClickListener(this);
@@ -126,6 +140,20 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.siv5:
                 toJudgeChecked5();
                 break;
+
+            case R.id.siv6:
+                toJudgeChecked6();
+                break;
+        }
+    }
+
+    private void toJudgeChecked6() {
+        if (settingItemView6.isChecked()) {
+            settingItemView6.setCheckBox(false);
+            stopService(new Intent(this, WatchDogService.class));
+        } else {
+            settingItemView6.setCheckBox(true);
+            startService(new Intent(this, WatchDogService.class));
         }
     }
 
@@ -180,6 +208,5 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         builder.show();
     }
 
-    //
 
 }

@@ -28,6 +28,8 @@ import com.xd.phonedefender.R;
 import com.xd.phonedefender.hw.utils.StreamUtil;
 import com.xd.phonedefender.hw.utils.ToastUtil;
 
+import net.youmi.android.AdManager;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -117,6 +119,8 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        AdManager.getInstance(this).init("a71c30eb84c769f2","8710009929703b48", false);
 
         initViews();
         initDatas();

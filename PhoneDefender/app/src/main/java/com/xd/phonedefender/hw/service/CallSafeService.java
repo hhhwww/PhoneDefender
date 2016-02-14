@@ -10,7 +10,7 @@ import android.support.annotation.Nullable;
 import android.telephony.SmsMessage;
 import android.text.TextUtils;
 
-import com.xd.phonedefender.hw.db.BlackNumberDao;
+import com.xd.phonedefender.hw.db.dao.BlackNumberDao;
 
 /**
  * Created by hhhhwei on 16/1/29.

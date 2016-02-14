@@ -19,7 +19,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.xd.phonedefender.R;
-import com.xd.phonedefender.hw.db.AntivirusDao;
+import com.xd.phonedefender.hw.db.dao.AntivirusDao;
 import com.xd.phonedefender.hw.utils.MD5Utils;
 
 import java.util.List;
