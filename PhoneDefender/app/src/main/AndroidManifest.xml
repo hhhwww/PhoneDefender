@@ -80,6 +80,7 @@
             <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         </activity>
+        <activity android:name=".hw.activity.FlowActivity" />
 
         <receiver android:name=".hw.receiver.BootCompleteReceiver">
             <intent-filter>

@@ -57,18 +57,19 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
                 break;
 
             case 2:
-                startActivity(new Intent(this,AppManagerActivity.class));
+                startActivity(new Intent(this, AppManagerActivity.class));
                 break;
 
             case 3:
-                startActivity(new Intent(this,TaskManagerActivity.class));
+                startActivity(new Intent(this, TaskManagerActivity.class));
                 break;
 
             case 4:
+                startActivity(new Intent(this, FlowActivity.class));
                 break;
 
             case 5:
-                startActivity(new Intent(this,AntivirusActivity.class));
+                startActivity(new Intent(this, AntivirusActivity.class));
                 break;
 
             case 6:

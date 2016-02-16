@@ -2,7 +2,6 @@ package com.xd.phonedefender.hw.engine;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 
@@ -22,18 +21,18 @@ public class AppInfos {
         List<AppInfo> lists = new ArrayList<>();
 
         PackageManager packageManager = context.getPackageManager();
-        List<PackageInfo> installedPackages = packageManager.getInstalledPackages(0);
+        List<ApplicationInfo> installedPackages = packageManager.getInstalledApplications(0);
 
-        for (PackageInfo packageInfo : installedPackages) {
+        for (ApplicationInfo a : installedPackages) {
 
             AppInfo appInfo = new AppInfo();
 
-            Drawable apkIcon = packageInfo.applicationInfo.loadIcon(packageManager);
-            String apkName = packageInfo.applicationInfo.loadLabel(packageManager).toString();
-            String apkPackageName = packageInfo.packageName;
+            Drawable apkIcon = a.loadIcon(packageManager);
+            String apkName = a.loadLabel(packageManager).toString();
+            String apkPackageName = a.packageName;
 
             //获取apk的安装路径->获取apk的大小
-            String sourceDir = packageInfo.applicationInfo.sourceDir;
+            String sourceDir = a.sourceDir;
             File file = new File(sourceDir);
             long apkSize = file.length();
 
@@ -45,7 +44,7 @@ public class AppInfos {
             /**
              * 开始写判断是用户程序还是系统程序，程序在内存中还是在SD卡中
              */
-            int flags = packageInfo.applicationInfo.flags;
+            int flags = a.flags;
             if ((flags & ApplicationInfo.FLAG_SYSTEM) != 0)
                 appInfo.setUserApp(false);
             else
